@@ -1,0 +1,19 @@
+{
+  "name": "uptokeep",
+  "version": "1.0.0",
+  "description": "uptokeep is a tool to monitor websites and servers",
+  "main": "server/main.js",
+  "scripts": {
+    "test": "node server/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GyanPrakash2483/uptokeep.git"
+  },
+  "author": "gyanprakash2483@gmail.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/GyanPrakash2483/uptokeep/issues"
+  },
+  "homepage": "https://github.com/GyanPrakash2483/uptokeep#readme"
+}
