@@ -1,46 +1,48 @@
 const http = require('http');
+const mime = require('mime');
 const fs = require('fs');
-const api = require('./api');
-const mime = require('mime')
 
 const client = {
-	path: __dirname + '/../client/'
+	path: './client/'
 };
 
-http.createServer(function(req, res){
-	if(req.url == '/api') {
+http.createServer(function(req, res) {
 
+	let response = null;
+
+	if (req.url == '/api') {
 		if(req.method == 'POST') {
-
-			req.on('data', function(data){
-				console.log(data); //yet to be tested
-				res.writeHead(200, {'Content-Type': 'application/json'});
-				res.write('{"test": "working"}');
+			req.on('data', function(data) {
+				res.setHeader('Content-Type', 'application/json');
+				res.write('API request');
+				res.end();
 			});
-			res.end();
-
 		}
-
 	}
-	else if(req.url == '/') {
-
-		res.writeHead(200, {'Content-Type': 'text/html'});
-		res.write(fs.readFileSync(client.path + '/index.html', 'utf-8', function(err, data){
-			res.write(toString(err));
-		}));
-		res.end();
-
-	} else if(fs.existsSync(client.path + req.url)) {
-
-		res.writeHead(200, {'Content-Type': mime.getType(client.path + req.url)});
-		res.write(fs.readFileSync(client.path + req.url));
-		res.end();
-
-	} else {
-
-		res.write('<h1> Error 404 </h1> <br> The page you are looking for could not be found.');
-		res.end();
-
+	else if (req.url == '/') {
+		fs.readFile(client.path + '/index.html', function(err, data){
+			res.setHeader('Content-Type', 'text/html');
+			res.write(data);
+			res.end();
+		});
 	}
+	else {
+		fs.readFile(client.path + req.url, function(err, data){
+			if(err) {
+				res.writeHead(err.code);
+				res.write(err.code);
+				res.end();
+				return;
+			}
+			res.setHeader('Content-Type', mime.getType(client.path + req.url));
+			res.write(data);
+			res.end();
+		});
+	}
+
+/*	req.on('end', function(){
+		res.end();
+	});
+*/
 
 }).listen(8080);
