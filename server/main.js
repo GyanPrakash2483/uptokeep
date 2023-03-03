@@ -1,6 +1,7 @@
 const http = require('http');
 const mime = require('mime');
 const fs = require('fs');
+const api = require('./api');
 
 const client = {
 	path: './client/'
@@ -8,29 +9,26 @@ const client = {
 
 http.createServer(function(req, res) {
 
-	let response = null;
 
 	if (req.url == '/api') {
 		if(req.method == 'POST') {
 			req.on('data', function(data) {
 				res.setHeader('Content-Type', 'application/json');
-				res.write('API request');
+				res.write(api.handleAPIrequest(data.toString()));
 				res.end();
 			});
 		}
-	}
-	else if (req.url == '/') {
+	} else if (req.url == '/') {
 		fs.readFile(client.path + '/index.html', function(err, data){
 			res.setHeader('Content-Type', 'text/html');
 			res.write(data);
 			res.end();
 		});
-	}
-	else {
+	} else {
 		fs.readFile(client.path + req.url, function(err, data){
 			if(err) {
-				res.writeHead(err.code);
-				res.write(err.code);
+				res.writeHead(404, {'Content-Type': 'application/json'});
+				res.write(err.toString());
 				res.end();
 				return;
 			}
@@ -40,9 +38,5 @@ http.createServer(function(req, res) {
 		});
 	}
 
-/*	req.on('end', function(){
-		res.end();
-	});
-*/
 
 }).listen(8080);
