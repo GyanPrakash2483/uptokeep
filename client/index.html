@@ -1,1 +1,21 @@
-testa
+<!DOCTYPE html>
+<html>
+<head>
+	<title>uptokeep</title>
+</head>
+<body>
+	button
+	<script>
+		document.querySelector('body').onclick=function() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/api', true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.send('{"test":"sent"}');
+
+			xhr.onload = function() {
+				console.log(this.responseText);
+			}
+		}
+	</script>
+</body>
+</html>
