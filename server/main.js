@@ -1,7 +1,7 @@
 const http = require('http');
 const mime = require('mime');
 const fs = require('fs');
-const api = require('./api');
+const webHandler = require('./webhandler');
 
 const client = {
 	path: './client/'
@@ -14,7 +14,7 @@ http.createServer(function(req, res) {
 		if(req.method == 'POST') {
 			req.on('data', function(data) {
 				res.setHeader('Content-Type', 'application/json');
-				res.write(api.handleAPIrequest(data.toString()));
+				res.write(webHandler.handleRequest(data.toString()));
 				res.end();
 			});
 		}

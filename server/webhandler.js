@@ -1,4 +1,4 @@
-function handleAPIrequest(data) {
+function handleRequest(data) {
 
 	console.log('client sent: ' + data);
 	return 'pong';
@@ -6,5 +6,5 @@ function handleAPIrequest(data) {
 
 
 module.exports = {
-	handleAPIrequest
+	handleRequest
 }
